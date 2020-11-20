@@ -14,10 +14,24 @@ function Home() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [countries, setCountries] = useState([])
+  const [term, setTerm] = useState('')
   const [region, setRegion] = useState('')
 
   useEffect(() => {
-    const queryString = !region ? 'all' : `region/${region}`
+    fetch(`https://restcountries.eu/rest/v2/all`)
+      .then((res) => res.json())
+      .then((data) => setCountries(data))
+      .catch((e) => {
+        console.error(e)
+        setError(true)
+      })
+      .finally(setLoading(false))
+  }, [])
+
+  function loadByRegion(region) {
+    const service = !region ? 'all' : `region/${region}`
+    const fields = '?fields=flag;name;population;region;capital;alpha2Code'
+    const queryString = `${service}${fields}`
 
     fetch(`https://restcountries.eu/rest/v2/${queryString}`)
       .then((res) => res.json())
@@ -27,10 +41,40 @@ function Home() {
         setError(true)
       })
       .finally(setLoading(false))
-  }, [region])
+  }
+
+  function loadByName(term) {
+    const queryString = !term ? 'all' : `name/${term}`
+
+    fetch(`https://restcountries.eu/rest/v2/${queryString}`)
+      .then((res) => res.json())
+      .then((data) => setCountries(data))
+      .catch((e) => {
+        console.error(e)
+        setError(true)
+      })
+      .finally(setLoading(false))
+  }
+
+  function handleSearchChange(e) {
+    e.preventDefault()
+
+    setTerm(e.target.value)
+  }
+
+  function handleSearch(e) {
+    e.preventDefault()
+
+    setRegion('')
+
+    loadByName(term)
+  }
 
   function handleRegionChange(_, data) {
     setRegion(data.value)
+    setTerm('')
+
+    loadByRegion(data.value)
   }
 
   function renderGrid() {
@@ -66,22 +110,27 @@ function Home() {
     <div className="Home">
       <Container>
         <div className="header">
-          <Input
-            icon="search"
-            iconPosition="left"
-            placeholder="Search for a country..."
-            disabled={loading}
-          />
+          <form onSubmit={handleSearch}>
+            <Input
+              disabled={loading}
+              icon="search"
+              iconPosition="left"
+              onChange={handleSearchChange}
+              placeholder="Search for a country..."
+              value={term}
+            />
+          </form>
 
           <Dropdown
-            placeholder="Filer by region"
-            selection
             clearable
             disabled={loading}
+            onChange={handleRegionChange}
             options={regionOptions}
+            placeholder="Filter by region"
+            selection
             selectOnBlur={false}
             selectOnNavigation={false}
-            onChange={handleRegionChange}
+            value={region}
           />
         </div>
 
