@@ -7,6 +7,7 @@ import {
   Image,
   Loader,
 } from 'semantic-ui-react'
+import { regionOptions } from '../../consts/regionOptions'
 import './index.css'
 
 function Home() {
@@ -27,7 +28,10 @@ function Home() {
 
   function renderGrid() {
     if (loading) return <Loader active />
-    if (error) return <p>Error</p>
+    if (error)
+      return (
+        <p>An error occurred. Please, refresh the page or try again later.</p>
+      )
 
     return countries.map(({ flag, name, population, region, capital }) => (
       <Card key={name} fluid>
@@ -59,18 +63,18 @@ function Home() {
             icon="search"
             iconPosition="left"
             placeholder="Search for a country..."
+            disabled={loading}
           />
 
           <Dropdown
             placeholder="Filer by region"
             selection
-            options={[
-              {
-                key: 0,
-                text: 'All',
-                value: 0,
-              },
-            ]}
+            clearable
+            disabled={loading}
+            options={regionOptions}
+            selectOnBlur={false}
+            selectOnNavigation={false}
+            onChange={(_, data) => console.log(data.value)}
           />
         </div>
 
