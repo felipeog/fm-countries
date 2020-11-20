@@ -14,9 +14,12 @@ function Home() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [countries, setCountries] = useState([])
+  const [region, setRegion] = useState('')
 
   useEffect(() => {
-    fetch('https://restcountries.eu/rest/v2/all')
+    const queryString = !region ? 'all' : `region/${region}`
+
+    fetch(`https://restcountries.eu/rest/v2/${queryString}`)
       .then((res) => res.json())
       .then((data) => setCountries(data))
       .catch((e) => {
@@ -24,7 +27,11 @@ function Home() {
         setError(true)
       })
       .finally(setLoading(false))
-  }, [])
+  }, [region])
+
+  function handleRegionChange(_, data) {
+    setRegion(data.value)
+  }
 
   function renderGrid() {
     if (loading) return <Loader active />
@@ -74,7 +81,7 @@ function Home() {
             options={regionOptions}
             selectOnBlur={false}
             selectOnNavigation={false}
-            onChange={(_, data) => console.log(data.value)}
+            onChange={handleRegionChange}
           />
         </div>
 
