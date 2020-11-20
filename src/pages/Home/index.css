@@ -1,0 +1,31 @@
+.Home {
+  padding: 2rem 0;
+  background: #f8f8f8;
+  min-height: calc(100vh - 50px);
+}
+
+.Home .header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.Home .grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 4rem;
+}
+
+.Home .ui.image {
+  height: 12rem;
+}
+
+.Home .ui.image img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+}
+
+.Home .ui.card {
+  margin: 0;
+}
