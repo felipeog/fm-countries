@@ -68,7 +68,7 @@ function Country() {
           <Header as="h1">{name}</Header>
 
           <div className="content-columns">
-            <div>
+            <div className="left">
               <p>
                 <strong>Native name:</strong> {nativeName}
               </p>
@@ -86,7 +86,7 @@ function Country() {
               </p>
             </div>
 
-            <div>
+            <div className="right">
               <p>
                 <strong>Top level domain:</strong> {topLevelDomainList}
               </p>
