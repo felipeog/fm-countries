@@ -1,0 +1,35 @@
+.Country {
+  padding: 2rem 0;
+}
+
+.Country .header {
+  margin-bottom: 2rem;
+}
+
+.Country .grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 4rem;
+}
+
+.Country .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.Country .content-columns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Country .borders-title {
+  flex-shrink: 0;
+  margin-right: 1rem;
+}
+
+.Country .content-borders {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}

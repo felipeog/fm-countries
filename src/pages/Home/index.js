@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import {
   Container,
   Input,
@@ -18,6 +19,8 @@ function Home() {
   const [region, setRegion] = useState('')
 
   useEffect(() => {
+    setLoading(true)
+
     fetch(`https://restcountries.eu/rest/v2/all`)
       .then((res) => res.json())
       .then((data) => setCountries(data))
@@ -29,6 +32,8 @@ function Home() {
   }, [])
 
   function loadByRegion(region) {
+    setLoading(true)
+
     const service = !region ? 'all' : `region/${region}`
     const fields = '?fields=flag;name;population;region;capital;alpha2Code'
     const queryString = `${service}${fields}`
@@ -84,32 +89,36 @@ function Home() {
         <p>An error occurred. Please, refresh the page or try again later.</p>
       )
 
-    return countries.map(({ flag, name, population, region, capital }) => (
-      <Card key={name} fluid>
-        <Image src={flag} wrapped />
+    return countries.map(
+      ({ flag, name, population, region, capital, alpha2Code }) => (
+        <Link key={name} to={`/country/${alpha2Code}`}>
+          <Card fluid>
+            <Image src={flag} wrapped />
 
-        <Card.Content>
-          <Card.Header>{name}</Card.Header>
-          <Card.Description>
-            <p>
-              <strong>Population:</strong> {population.toLocaleString()}
-            </p>
-            <p>
-              <strong>Region:</strong> {region}
-            </p>
-            <p>
-              <strong>Capital:</strong> {capital}
-            </p>
-          </Card.Description>
-        </Card.Content>
-      </Card>
-    ))
+            <Card.Content>
+              <Card.Header>{name}</Card.Header>
+              <Card.Description>
+                <p>
+                  <strong>Population:</strong> {population.toLocaleString()}
+                </p>
+                <p>
+                  <strong>Region:</strong> {region}
+                </p>
+                <p>
+                  <strong>Capital:</strong> {capital}
+                </p>
+              </Card.Description>
+            </Card.Content>
+          </Card>
+        </Link>
+      )
+    )
   }
 
   return (
     <div className="Home">
-      <Container>
-        <div className="header">
+      <Container as="main">
+        <section className="header">
           <form onSubmit={handleSearch}>
             <Input
               disabled={loading}
@@ -132,9 +141,9 @@ function Home() {
             selectOnNavigation={false}
             value={region}
           />
-        </div>
+        </section>
 
-        <div className="grid">{renderGrid()}</div>
+        <section className="grid">{renderGrid()}</section>
       </Container>
     </div>
   )

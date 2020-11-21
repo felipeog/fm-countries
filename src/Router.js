@@ -9,7 +9,7 @@ function Router() {
         <Route exact path="/">
           <Home />
         </Route>
-        <Route exact path="/country">
+        <Route exact path="/country/:alpha2Code">
           <Country />
         </Route>
       </Switch>
