@@ -1,12 +1,43 @@
 .Country {
   padding: 2rem 0;
+  color: var(--text-color);
 
   .header {
     margin-bottom: 2rem;
+
+    &__back-button.button {
+      margin-bottom: 0.25em;
+      color: var(--text-color) !important;
+      background-color: var(--element-bg) !important;
+      box-shadow: 0 0 0 1px var(--border-color) inset;
+
+      &:hover {
+        color: var(--text-color) !important;
+        background-color: var(--element-bg-hover) !important;
+        box-shadow: 0 0 0 1px var(--border-color) inset;
+      }
+    }
   }
 
-  .borders__button {
-    margin-bottom: 0.25em;
+  .country {
+    &__name {
+      color: var(--text-color);
+    }
+  }
+
+  .borders {
+    &__button.button {
+      margin-bottom: 0.25em;
+      color: var(--text-color) !important;
+      background-color: var(--element-bg) !important;
+      box-shadow: 0 0 0 1px var(--border-color) inset;
+
+      &:hover {
+        color: var(--text-color) !important;
+        background-color: var(--element-bg-hover) !important;
+        box-shadow: 0 0 0 1px var(--border-color) inset;
+      }
+    }
   }
 }
 

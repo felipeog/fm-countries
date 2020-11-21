@@ -1,10 +1,57 @@
 .Home {
   padding: 2rem 0;
-  background: #f8f8f8;
-  min-height: calc(100vh - 50px);
 
   .header {
     margin-bottom: 2rem;
+
+    &__search {
+      input,
+      input:focus {
+        background-color: var(--element-bg);
+        border-color: var(--border-color);
+        color: var(--text-color);
+      }
+
+      input::placeholder {
+        color: var(--text-color);
+      }
+
+      .icon {
+        color: var(--text-color);
+      }
+    }
+
+    &__select {
+      background-color: var(--element-bg) !important;
+      border-color: var(--border-color) !important;
+      color: var(--text-color) !important;
+
+      .divider {
+        color: var(--text-color) !important;
+      }
+
+      .menu {
+        border-color: var(--border-color) !important;
+
+        .item {
+          background-color: var(--element-bg);
+          border-color: var(--border-color) !important;
+          color: var(--text-color) !important;
+
+          &:hover {
+            background-color: var(--element-bg-hover);
+          }
+
+          &.selected {
+            background-color: var(--element-bg-selected);
+          }
+
+          &.active {
+            background-color: var(--element-bg-selected);
+          }
+        }
+      }
+    }
   }
 
   .country-grid {
@@ -15,11 +62,18 @@
     &__card {
       height: 100%;
       margin: 0;
+      background-color: var(--element-bg);
+      box-shadow: 0 1px 3px 0 var(--border-color), 0 0 0 1px var(--border-color);
     }
 
     &__flag {
       height: 12rem;
       object-fit: cover;
+    }
+
+    &__name,
+    &__metrics {
+      color: var(--text-color) !important;
     }
   }
 }

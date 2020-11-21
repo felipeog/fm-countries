@@ -1,0 +1,17 @@
+body {
+  --element-bg: #fff;
+  --element-bg-hover: #f6f6f6;
+  --element-bg-selected: #f3f3f3;
+  --app-bg: #fafafa;
+  --text-color: #111517;
+  --border-color: #eee;
+}
+
+body.dark {
+  --element-bg: #2b3945;
+  --element-bg-hover: #23303b;
+  --element-bg-selected: #18232c;
+  --app-bg: #202c37;
+  --text-color: #ededed;
+  --border-color: #17212b;
+}
