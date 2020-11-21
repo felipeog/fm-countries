@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import {
   Container,
@@ -16,6 +16,7 @@ import './index.css'
 
 function Home() {
   const history = useHistory()
+  const searchRef = useRef()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [countries, setCountries] = useState(null)
@@ -39,7 +40,7 @@ function Home() {
           console.error(`Home@fetchByRegion >>>>> ${e}`)
           setError(true)
         })
-        .finally(setLoading(false))
+        .finally(() => setLoading(false))
     },
     [history]
   )
@@ -60,7 +61,10 @@ function Home() {
           console.error(`Home@fetchByTerm >>>>> ${e}`)
           setError(true)
         })
-        .finally(setLoading(false))
+        .finally(() => {
+          setLoading(false)
+          searchRef.current.focus()
+        })
     },
     [history]
   )
@@ -153,7 +157,7 @@ function Home() {
 
   return (
     <div className="Home">
-      <Container as="main">
+      <Container as="main" key="main">
         <section className="header">
           <h1 className="hidden">Search</h1>
 
@@ -164,6 +168,7 @@ function Home() {
             iconPosition="left"
             onChange={handleSearchChange}
             placeholder="Search for a country..."
+            ref={searchRef}
             value={term}
           />
 
