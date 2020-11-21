@@ -12,7 +12,7 @@ import {
 } from 'semantic-ui-react'
 import { fetchByAlphaCode, fetchByAlphaCodeArray } from '../../utils/api'
 import ErrorMessage from '../../components/ErrorMessage'
-import './index.css'
+import './index.scss'
 
 function Country() {
   const { goBack } = useHistory()
@@ -59,13 +59,14 @@ function Country() {
     }
   }, [country])
 
-  function renderGrid() {
+  function renderCountry() {
     if (loadingCountry || !country || loadingBorders || !borders)
       return <Loader active />
     if (errorCountry || errorBorders) return <ErrorMessage />
     if (country?.status)
       return (
         <Message
+          className="error"
           color="red"
           icon="exclamation"
           header="Not found"
@@ -92,14 +93,18 @@ function Country() {
       languages?.map(({ name }) => name)?.join(', ') || '---'
 
     return (
-      <>
-        <Image src={flag} alt={name} fluid />
+      <section className="country">
+        <h1 className="hidden">Country information</h1>
 
-        <article className="content">
-          <Header as="h1">{name}</Header>
+        <Image className="country__flag" src={flag} alt={name} fluid />
 
-          <div className="content-columns">
-            <div className="left">
+        <article className="country__content">
+          <Header className="country__name" as="h1">
+            {name}
+          </Header>
+
+          <div className="country__columns">
+            <div className="country__column">
               <p>
                 <strong>Native name:</strong> {nativeName}
               </p>
@@ -117,7 +122,7 @@ function Country() {
               </p>
             </div>
 
-            <div className="right">
+            <div className="country__column">
               <p>
                 <strong>Top level domain:</strong> {topLevelDomainList}
               </p>
@@ -130,15 +135,17 @@ function Country() {
             </div>
           </div>
 
-          <div className="content-borders">
-            <p className="borders-title">
+          <div className="borders">
+            <p className="borders__title">
               <strong>Border countries:</strong>
             </p>
 
             {borders?.length ? (
               borders?.map(({ name, alpha2Code }) => (
                 <Link key={alpha2Code} to={`/country/${alpha2Code}`}>
-                  <Button basic>{name}</Button>
+                  <Button className="borders__button" basic>
+                    {name}
+                  </Button>
                 </Link>
               ))
             ) : (
@@ -146,7 +153,7 @@ function Country() {
             )}
           </div>
         </article>
-      </>
+      </section>
     )
   }
 
@@ -156,16 +163,12 @@ function Country() {
         <section className="header">
           <h1 className="hidden">Go back</h1>
 
-          <Button basic onClick={goBack}>
+          <Button className="header__back-button" basic onClick={goBack}>
             <Icon name="arrow left" /> Back
           </Button>
         </section>
 
-        <section className="grid">
-          <h1 className="hidden">Country information</h1>
-
-          {renderGrid()}
-        </section>
+        {renderCountry()}
       </Container>
     </div>
   )

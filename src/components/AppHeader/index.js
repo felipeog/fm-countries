@@ -1,6 +1,6 @@
 import { Container, Header } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import './index.css'
+import './index.scss'
 
 function AppHeader() {
   return (

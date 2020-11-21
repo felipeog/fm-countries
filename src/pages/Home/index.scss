@@ -1,0 +1,45 @@
+.Home {
+  padding: 2rem 0;
+  background: #f8f8f8;
+  min-height: calc(100vh - 50px);
+
+  .header {
+    margin-bottom: 2rem;
+  }
+
+  .country-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 4rem;
+
+    &__card {
+      height: 100%;
+      margin: 0;
+    }
+
+    &__flag {
+      height: 12rem;
+      object-fit: cover;
+    }
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .Home .header {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 590px) {
+  .Home {
+    .header {
+      display: grid;
+      grid-gap: 2rem;
+
+      &__search {
+        width: 100%;
+      }
+    }
+  }
+}

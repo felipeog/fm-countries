@@ -3,6 +3,7 @@ import { Message } from 'semantic-ui-react'
 function ErrorMessage() {
   return (
     <Message
+      className="ErrorMessage"
       color="red"
       icon="exclamation"
       header="An error occurred"

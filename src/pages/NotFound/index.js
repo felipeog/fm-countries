@@ -1,5 +1,5 @@
 import { Message, Container } from 'semantic-ui-react'
-import './index.css'
+import './index.scss'
 
 function NotFound() {
   return (

@@ -12,7 +12,7 @@ import {
 import ErrorMessage from '../../components/ErrorMessage'
 import { regionOptions } from '../../consts/regionOptions'
 import { fetchByRegion, fetchByTerm, fetchAll } from '../../utils/api'
-import './index.css'
+import './index.scss'
 
 function Home() {
   const history = useHistory()
@@ -116,12 +116,13 @@ function Home() {
     loadByRegion(data.value)
   }
 
-  function renderGrid() {
+  function renderCountryGrid() {
     if (loading || !countries) return <Loader active />
     if (error) return <ErrorMessage />
     if (!countries?.length)
       return (
         <Message
+          className="not-found"
           color="yellow"
           icon="search"
           header="No results"
@@ -129,29 +130,37 @@ function Home() {
         />
       )
 
-    return countries.map(
-      ({ flag, name, population, region, capital, alpha2Code }) => (
-        <Link key={name} to={`/country/${alpha2Code}`}>
-          <Card fluid>
-            <Image src={flag} alt={name} wrapped />
+    return (
+      <section className="country-grid">
+        <h1 className="hidden">Countries</h1>
 
-            <Card.Content>
-              <Card.Header>{name}</Card.Header>
-              <Card.Description>
-                <p>
-                  <strong>Population:</strong> {population.toLocaleString()}
-                </p>
-                <p>
-                  <strong>Region:</strong> {region}
-                </p>
-                <p>
-                  <strong>Capital:</strong> {capital}
-                </p>
-              </Card.Description>
-            </Card.Content>
-          </Card>
-        </Link>
-      )
+        {countries.map(
+          ({ flag, name, population, region, capital, alpha2Code }) => (
+            <Link key={name} to={`/country/${alpha2Code}`}>
+              <Card className="country-grid__card" fluid>
+                <Image className="country-grid__flag" src={flag} alt={name} />
+
+                <Card.Content>
+                  <Card.Header className="country-grid__name">
+                    {name}
+                  </Card.Header>
+                  <Card.Description className="country-grid__metrics">
+                    <p>
+                      <strong>Population:</strong> {population.toLocaleString()}
+                    </p>
+                    <p>
+                      <strong>Region:</strong> {region}
+                    </p>
+                    <p>
+                      <strong>Capital:</strong> {capital}
+                    </p>
+                  </Card.Description>
+                </Card.Content>
+              </Card>
+            </Link>
+          )
+        )}
+      </section>
     )
   }
 
@@ -162,6 +171,7 @@ function Home() {
           <h1 className="hidden">Search</h1>
 
           <Input
+            className="header__search"
             aria-label="Country search input"
             disabled={loading}
             icon="search"
@@ -173,6 +183,7 @@ function Home() {
           />
 
           <Dropdown
+            className="header__select"
             clearable
             disabled={loading}
             onChange={handleRegionChange}
@@ -185,11 +196,7 @@ function Home() {
           />
         </section>
 
-        <section className="grid">
-          <h1 className="hidden">Countries</h1>
-
-          {renderGrid()}
-        </section>
+        {renderCountryGrid()}
       </Container>
     </div>
   )
