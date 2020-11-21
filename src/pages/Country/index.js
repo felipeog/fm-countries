@@ -106,7 +106,7 @@ function Country() {
 
             {borders?.length ? (
               borders?.map((border) => (
-                <Link to={`/country/${border}`}>
+                <Link key={border} to={`/country/${border}`}>
                   <Button basic>{border}</Button>
                 </Link>
               ))
