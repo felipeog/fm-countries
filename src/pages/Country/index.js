@@ -8,6 +8,7 @@ import {
   Loader,
   Button,
   Icon,
+  Message,
 } from 'semantic-ui-react'
 import { fetchByAlphaCode, fetchByAlphaCodeArray } from '../../utils/api'
 import ErrorMessage from '../../components/ErrorMessage'
@@ -62,6 +63,15 @@ function Country() {
     if (loadingCountry || !country || loadingBorders || !borders)
       return <Loader active />
     if (errorCountry || errorBorders) return <ErrorMessage />
+    if (country?.status === 404)
+      return (
+        <Message
+          color="red"
+          icon="exclamation"
+          header="Not found"
+          content="Invalid URL"
+        />
+      )
 
     const {
       flag,
