@@ -63,7 +63,7 @@ function Country() {
     if (loadingCountry || !country || loadingBorders || !borders)
       return <Loader active />
     if (errorCountry || errorBorders) return <ErrorMessage />
-    if (country?.status === 404)
+    if (country?.status)
       return (
         <Message
           color="red"
