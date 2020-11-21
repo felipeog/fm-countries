@@ -5,15 +5,17 @@
 }
 
 .Home .header {
-  display: flex;
-  justify-content: space-between;
   margin-bottom: 2rem;
 }
 
 .Home .grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-gap: 4rem;
+}
+
+.Home .ui.card {
+  height: 100%;
 }
 
 .Home .ui.image {
@@ -28,4 +30,22 @@
 
 .Home .ui.card {
   margin: 0;
+}
+
+@media screen and (min-width: 600px) {
+  .Home .header {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 590px) {
+  .Home .header {
+    display: grid;
+    grid-gap: 2rem;
+  }
+
+  .Home .ui.input {
+    width: 100%;
+  }
 }
