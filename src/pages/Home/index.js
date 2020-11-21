@@ -9,6 +9,7 @@ import {
   Loader,
 } from 'semantic-ui-react'
 import { regionOptions } from '../../consts/regionOptions'
+import { homeFields } from '../../consts/homeFields'
 import './index.css'
 
 function Home() {
@@ -28,8 +29,7 @@ function Home() {
       })
 
       const service = !region ? 'all' : `region/${region}`
-      const fields = '?fields=flag;name;population;region;capital;alpha2Code'
-      const queryString = `${service}${fields}`
+      const queryString = `${service}${homeFields}`
 
       fetch(`https://restcountries.eu/rest/v2/${queryString}`)
         .then((res) => res.json())
@@ -53,7 +53,7 @@ function Home() {
 
       const queryString = !term ? 'all' : `name/${term}`
 
-      fetch(`https://restcountries.eu/rest/v2/${queryString}`)
+      fetch(`https://restcountries.eu/rest/v2/${queryString}${homeFields}`)
         .then((res) => res.json())
         .then((data) => setCountries(data))
         .catch((e) => {
@@ -83,7 +83,7 @@ function Home() {
       return
     }
 
-    fetch(`https://restcountries.eu/rest/v2/all`)
+    fetch(`https://restcountries.eu/rest/v2/all${homeFields}`)
       .then((res) => res.json())
       .then((data) => setCountries(data))
       .catch((e) => {

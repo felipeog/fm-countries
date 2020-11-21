@@ -9,12 +9,12 @@ import {
   Button,
   Icon,
 } from 'semantic-ui-react'
+import { countryFields } from '../../consts/countryFields'
 import './index.css'
 
 function Country() {
   const { goBack } = useHistory()
   const { alpha2Code } = useParams()
-
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [country, setCountry] = useState([])
@@ -22,10 +22,9 @@ function Country() {
   useEffect(() => {
     setLoading(true)
 
-    const fields =
-      '?fields=flag;name;nativeName;population;region;subregion;capital;topLevelDomain;currencies;languages;borders'
-
-    fetch(`https://restcountries.eu/rest/v2/alpha/${alpha2Code}${fields}`)
+    fetch(
+      `https://restcountries.eu/rest/v2/alpha/${alpha2Code}${countryFields}`
+    )
       .then((res) => res.json())
       .then((data) => setCountry(data))
       .catch((e) => {
