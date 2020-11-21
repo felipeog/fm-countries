@@ -74,7 +74,7 @@ function Country() {
                 <strong>Native name:</strong> {nativeName}
               </p>
               <p>
-                <strong>Population:</strong> {population.toLocaleString()}
+                <strong>Population:</strong> {population?.toLocaleString()}
               </p>
               <p>
                 <strong>Region:</strong> {region}
