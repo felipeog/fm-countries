@@ -149,12 +149,12 @@ function Home() {
           <form onSubmit={handleSearch}>
             <Input
               disabled={loading}
-              icon="search"
-              iconPosition="left"
               onChange={handleSearchChange}
               placeholder="Search for a country..."
               value={term}
               aria-label="Country search"
+              action={{ icon: 'search' }}
+              actionPosition="left"
             />
           </form>
 
