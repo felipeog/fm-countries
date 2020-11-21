@@ -3,13 +3,23 @@ import { Container, Header, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import './index.scss'
 
+const LS_KEY = 'frontend-mentor/dark-theme'
+
 function AppHeader() {
   const [isDarkTheme, setIsDarkTheme] = useState(false)
+
+  useEffect(() => {
+    const isDarkTheme = JSON.parse(localStorage.getItem(LS_KEY))
+
+    setIsDarkTheme(isDarkTheme)
+  }, [])
 
   useEffect(() => {
     isDarkTheme
       ? document.body.classList.add('dark')
       : document.body.classList.remove('dark')
+
+    localStorage.setItem(LS_KEY, JSON.stringify(isDarkTheme))
   }, [isDarkTheme])
 
   function handleThemeChange() {
