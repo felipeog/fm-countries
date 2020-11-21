@@ -8,6 +8,7 @@ import {
   Image,
   Loader,
 } from 'semantic-ui-react'
+import ErrorMessage from '../../components/ErrorMessage'
 import { regionOptions } from '../../consts/regionOptions'
 import { fetchByRegion, fetchByTerm, fetchAll } from '../../utils/api'
 import './index.css'
@@ -111,10 +112,7 @@ function Home() {
 
   function renderGrid() {
     if (loading) return <Loader active />
-    if (error)
-      return (
-        <p>An error occurred. Please, refresh the page or try again later.</p>
-      )
+    if (error) return <ErrorMessage />
 
     return countries.map(
       ({ flag, name, population, region, capital, alpha2Code }) => (

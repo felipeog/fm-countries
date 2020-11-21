@@ -10,6 +10,7 @@ import {
   Icon,
 } from 'semantic-ui-react'
 import { fetchByAlphaCode } from '../../utils/api'
+import ErrorMessage from '../../components/ErrorMessage'
 import './index.css'
 
 function Country() {
@@ -34,10 +35,7 @@ function Country() {
 
   function renderGrid() {
     if (loading) return <Loader active />
-    if (error)
-      return (
-        <p>An error occurred. Please, refresh the page or try again later.</p>
-      )
+    if (error) return <ErrorMessage />
 
     const {
       flag,
