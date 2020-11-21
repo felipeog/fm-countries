@@ -1,11 +1,14 @@
 import { Container, Header } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 import './index.css'
 
 function AppHeader() {
   return (
     <div className="AppHeader">
       <Container>
-        <Header>Where in the world?</Header>
+        <Link to="/">
+          <Header>Where in the world?</Header>
+        </Link>
       </Container>
     </div>
   )
