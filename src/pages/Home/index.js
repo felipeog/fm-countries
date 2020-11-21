@@ -152,8 +152,8 @@ function Home() {
               onChange={handleSearchChange}
               placeholder="Search for a country..."
               value={term}
-              aria-label="Country search"
-              action={{ icon: 'search' }}
+              aria-label="Country search input"
+              action={{ icon: 'search', 'aria-label': 'Country search submit' }}
               actionPosition="left"
             />
           </form>
