@@ -118,7 +118,7 @@ function Home() {
       ({ flag, name, population, region, capital, alpha2Code }) => (
         <Link key={name} to={`/country/${alpha2Code}`}>
           <Card fluid>
-            <Image src={flag} alt="name" wrapped />
+            <Image src={flag} alt={name} wrapped />
 
             <Card.Content>
               <Card.Header>{name}</Card.Header>

@@ -80,7 +80,7 @@ function Country() {
 
     return (
       <>
-        <Image src={flag} alt="name" fluid />
+        <Image src={flag} alt={name} fluid />
 
         <article className="content">
           <Header as="h1">{name}</Header>
