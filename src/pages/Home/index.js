@@ -7,6 +7,7 @@ import {
   Card,
   Image,
   Loader,
+  Message,
 } from 'semantic-ui-react'
 import ErrorMessage from '../../components/ErrorMessage'
 import { regionOptions } from '../../consts/regionOptions'
@@ -20,6 +21,7 @@ function Home() {
   const [countries, setCountries] = useState([])
   const [term, setTerm] = useState('')
   const [region, setRegion] = useState('')
+  const [typingTimeoutId, setTypingTimeoutId] = useState(null)
 
   const loadByRegion = useCallback(
     function (region) {
@@ -91,16 +93,15 @@ function Home() {
 
   function handleSearchChange(e) {
     e.preventDefault()
+    clearTimeout(typingTimeoutId)
+    console.log('clear', typingTimeoutId)
 
-    setTerm(e.target.value)
-  }
-
-  function handleSearch(e) {
-    e.preventDefault()
+    const term = e.target.value
 
     setRegion('')
+    setTerm(term)
 
-    loadByTerm(term)
+    setTypingTimeoutId(() => setTimeout(() => loadByTerm(term), 600))
   }
 
   function handleRegionChange(_, data) {
@@ -113,6 +114,15 @@ function Home() {
   function renderGrid() {
     if (loading) return <Loader active />
     if (error) return <ErrorMessage />
+    if (!countries?.length)
+      return (
+        <Message
+          color="yellow"
+          icon="search"
+          header="No results"
+          content="Please, try another search term"
+        />
+      )
 
     return countries.map(
       ({ flag, name, population, region, capital, alpha2Code }) => (
@@ -146,17 +156,15 @@ function Home() {
         <section className="header">
           <h1 className="hidden">Search</h1>
 
-          <form onSubmit={handleSearch}>
-            <Input
-              disabled={loading}
-              onChange={handleSearchChange}
-              placeholder="Search for a country..."
-              value={term}
-              aria-label="Country search input"
-              action={{ icon: 'search', 'aria-label': 'Country search submit' }}
-              actionPosition="left"
-            />
-          </form>
+          <Input
+            aria-label="Country search input"
+            disabled={loading}
+            icon="search"
+            iconPosition="left"
+            onChange={handleSearchChange}
+            placeholder="Search for a country..."
+            value={term}
+          />
 
           <Dropdown
             clearable
