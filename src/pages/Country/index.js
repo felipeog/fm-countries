@@ -141,12 +141,18 @@ function Country() {
     <div className="Country">
       <Container as="main">
         <section className="header">
+          <h1 className="hidden">Header</h1>
+
           <Button basic onClick={goBack}>
             <Icon name="arrow left" /> Back
           </Button>
         </section>
 
-        <section className="grid">{renderGrid()}</section>
+        <section className="grid">
+          <h1 className="hidden">Countries</h1>
+
+          {renderGrid()}
+        </section>
       </Container>
     </div>
   )
