@@ -1,15 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { Link, useHistory } from 'react-router-dom'
-import {
-  Container,
-  Input,
-  Dropdown,
-  Card,
-  Image,
-  Loader,
-  Message,
-} from 'semantic-ui-react'
-import ErrorMessage from '../../components/ErrorMessage'
+import { useHistory } from 'react-router-dom'
+import { Container, Input, Dropdown } from 'semantic-ui-react'
+import CountriesGrid from '../../components/CountriesGrid'
 import { regionOptions } from '../../consts/regionOptions'
 import { fetchByRegion, fetchByTerm, fetchAll } from '../../utils/api'
 import './index.scss'
@@ -116,54 +108,6 @@ function Home() {
     loadByRegion(data.value)
   }
 
-  function renderCountryGrid() {
-    if (loading || !countries) return <Loader active />
-    if (error) return <ErrorMessage />
-    if (!countries?.length)
-      return (
-        <Message
-          className="not-found"
-          color="yellow"
-          icon="search"
-          header="No results"
-          content="Please, try another search term"
-        />
-      )
-
-    return (
-      <section className="country-grid">
-        <h1 className="hidden">Countries</h1>
-
-        {countries.map(
-          ({ flag, name, population, region, capital, alpha2Code }) => (
-            <Link key={name} to={`/country/${alpha2Code}`}>
-              <Card className="country-grid__card" fluid>
-                <Image className="country-grid__flag" src={flag} alt={name} />
-
-                <Card.Content>
-                  <Card.Header className="country-grid__name">
-                    {name}
-                  </Card.Header>
-                  <Card.Description className="country-grid__metrics">
-                    <p>
-                      <strong>Population:</strong> {population.toLocaleString()}
-                    </p>
-                    <p>
-                      <strong>Region:</strong> {region}
-                    </p>
-                    <p>
-                      <strong>Capital:</strong> {capital}
-                    </p>
-                  </Card.Description>
-                </Card.Content>
-              </Card>
-            </Link>
-          )
-        )}
-      </section>
-    )
-  }
-
   return (
     <div className="Home">
       <Container as="main" key="main">
@@ -196,7 +140,12 @@ function Home() {
           />
         </section>
 
-        {renderCountryGrid()}
+        <CountriesGrid
+          countries={countries}
+          loading={loading || !countries}
+          error={error}
+          notFound={!countries?.length}
+        />
       </Container>
     </div>
   )
