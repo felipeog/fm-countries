@@ -9,7 +9,7 @@ import {
   Loader,
 } from 'semantic-ui-react'
 import { regionOptions } from '../../consts/regionOptions'
-import { homeFields } from '../../consts/homeFields'
+import { fetchByRegion, fetchByTerm, fetchAll } from '../../utils/api'
 import './index.css'
 
 function Home() {
@@ -28,10 +28,7 @@ function Home() {
         search: !region ? '' : `?region=${region}`,
       })
 
-      const service = !region ? 'all' : `region/${region}`
-      const queryString = `${service}${homeFields}`
-
-      fetch(`https://restcountries.eu/rest/v2/${queryString}`)
+      fetchByRegion(region)
         .then((res) => res.json())
         .then((data) => setCountries(data))
         .catch((e) => {
@@ -51,9 +48,7 @@ function Home() {
         search: !term ? '' : `?term=${term}`,
       })
 
-      const queryString = !term ? 'all' : `name/${term}`
-
-      fetch(`https://restcountries.eu/rest/v2/${queryString}${homeFields}`)
+      fetchByTerm(term)
         .then((res) => res.json())
         .then((data) => setCountries(data))
         .catch((e) => {
@@ -83,7 +78,7 @@ function Home() {
       return
     }
 
-    fetch(`https://restcountries.eu/rest/v2/all${homeFields}`)
+    fetchAll()
       .then((res) => res.json())
       .then((data) => setCountries(data))
       .catch((e) => {

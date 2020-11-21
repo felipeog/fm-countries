@@ -9,7 +9,7 @@ import {
   Button,
   Icon,
 } from 'semantic-ui-react'
-import { countryFields } from '../../consts/countryFields'
+import { fetchByAlphaCode } from '../../utils/api'
 import './index.css'
 
 function Country() {
@@ -22,9 +22,7 @@ function Country() {
   useEffect(() => {
     setLoading(true)
 
-    fetch(
-      `https://restcountries.eu/rest/v2/alpha/${alpha2Code}${countryFields}`
-    )
+    fetchByAlphaCode(alpha2Code)
       .then((res) => res.json())
       .then((data) => setCountry(data))
       .catch((e) => {
