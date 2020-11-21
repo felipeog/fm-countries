@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { Link, useHistory, useLocation } from 'react-router-dom'
+import { useEffect, useState, useCallback } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import {
   Container,
   Input,
@@ -13,17 +13,62 @@ import './index.css'
 
 function Home() {
   const history = useHistory()
-  const { search } = useLocation()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [countries, setCountries] = useState([])
   const [term, setTerm] = useState('')
   const [region, setRegion] = useState('')
 
+  const loadByRegion = useCallback(
+    function (region) {
+      setLoading(true)
+
+      history.push({
+        search: !region ? '' : `?region=${region}`,
+      })
+
+      const service = !region ? 'all' : `region/${region}`
+      const fields = '?fields=flag;name;population;region;capital;alpha2Code'
+      const queryString = `${service}${fields}`
+
+      fetch(`https://restcountries.eu/rest/v2/${queryString}`)
+        .then((res) => res.json())
+        .then((data) => setCountries(data))
+        .catch((e) => {
+          console.error(e)
+          setError(true)
+        })
+        .finally(setLoading(false))
+    },
+    [history]
+  )
+
+  const loadByTerm = useCallback(
+    function (term) {
+      setLoading(true)
+
+      history.push({
+        search: !term ? '' : `?term=${term}`,
+      })
+
+      const queryString = !term ? 'all' : `name/${term}`
+
+      fetch(`https://restcountries.eu/rest/v2/${queryString}`)
+        .then((res) => res.json())
+        .then((data) => setCountries(data))
+        .catch((e) => {
+          console.error(e)
+          setError(true)
+        })
+        .finally(setLoading(false))
+    },
+    [history]
+  )
+
   useEffect(() => {
     setLoading(true)
 
-    const query = new URLSearchParams(search)
+    const query = new URLSearchParams(window.location.search)
     const [region, term] = [query.get('region'), query.get('term')]
 
     if (region) {
@@ -46,47 +91,7 @@ function Home() {
         setError(true)
       })
       .finally(setLoading(false))
-  }, [])
-
-  function loadByRegion(region) {
-    setLoading(true)
-
-    history.push({
-      search: !region ? '' : `?region=${region}`,
-    })
-
-    const service = !region ? 'all' : `region/${region}`
-    const fields = '?fields=flag;name;population;region;capital;alpha2Code'
-    const queryString = `${service}${fields}`
-
-    fetch(`https://restcountries.eu/rest/v2/${queryString}`)
-      .then((res) => res.json())
-      .then((data) => setCountries(data))
-      .catch((e) => {
-        console.error(e)
-        setError(true)
-      })
-      .finally(setLoading(false))
-  }
-
-  function loadByTerm(term) {
-    setLoading(true)
-
-    history.push({
-      search: !term ? '' : `?term=${term}`,
-    })
-
-    const queryString = !term ? 'all' : `name/${term}`
-
-    fetch(`https://restcountries.eu/rest/v2/${queryString}`)
-      .then((res) => res.json())
-      .then((data) => setCountries(data))
-      .catch((e) => {
-        console.error(e)
-        setError(true)
-      })
-      .finally(setLoading(false))
-  }
+  }, [loadByRegion, loadByTerm])
 
   function handleSearchChange(e) {
     e.preventDefault()
