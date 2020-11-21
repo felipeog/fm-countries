@@ -152,6 +152,7 @@ function Home() {
               onChange={handleSearchChange}
               placeholder="Search for a country..."
               value={term}
+              aria-label="Country search"
             />
           </form>
 
