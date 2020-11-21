@@ -18,7 +18,7 @@ function Home() {
   const history = useHistory()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
-  const [countries, setCountries] = useState([])
+  const [countries, setCountries] = useState(null)
   const [term, setTerm] = useState('')
   const [region, setRegion] = useState('')
   const [typingTimeoutId, setTypingTimeoutId] = useState(null)
@@ -26,6 +26,7 @@ function Home() {
   const loadByRegion = useCallback(
     function (region) {
       setLoading(true)
+      setCountries(null)
 
       history.push({
         search: !region ? '' : `?region=${region}`,
@@ -46,6 +47,7 @@ function Home() {
   const loadByTerm = useCallback(
     function (term) {
       setLoading(true)
+      setCountries(null)
 
       history.push({
         search: !term ? '' : `?term=${term}`,
@@ -94,7 +96,6 @@ function Home() {
   function handleSearchChange(e) {
     e.preventDefault()
     clearTimeout(typingTimeoutId)
-    console.log('clear', typingTimeoutId)
 
     const term = e.target.value
 
@@ -112,7 +113,7 @@ function Home() {
   }
 
   function renderGrid() {
-    if (loading) return <Loader active />
+    if (loading || !countries) return <Loader active />
     if (error) return <ErrorMessage />
     if (!countries?.length)
       return (

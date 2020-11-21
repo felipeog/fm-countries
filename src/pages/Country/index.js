@@ -20,11 +20,12 @@ function Country() {
   const [loadingBorders, setLoadingBorders] = useState(true)
   const [errorCountry, setErrorCountry] = useState(false)
   const [errorBorders, setErrorBorders] = useState(false)
-  const [country, setCountry] = useState({})
-  const [borders, setBorders] = useState([])
+  const [country, setCountry] = useState(null)
+  const [borders, setBorders] = useState(null)
 
   useEffect(() => {
     setLoadingCountry(true)
+    setCountry(null)
 
     fetchByAlphaCode(alpha2Code)
       .then((res) => res.json())
@@ -38,6 +39,7 @@ function Country() {
 
   useEffect(() => {
     setLoadingBorders(true)
+    setBorders(null)
 
     if (Array.isArray(country?.borders) && country?.borders?.length) {
       const { borders } = country
@@ -57,7 +59,8 @@ function Country() {
   }, [country])
 
   function renderGrid() {
-    if (loadingCountry || loadingBorders) return <Loader active />
+    if (loadingCountry || !country || loadingBorders || !borders)
+      return <Loader active />
     if (errorCountry || errorBorders) return <ErrorMessage />
 
     const {
