@@ -1,7 +1,8 @@
-import { apiUrl } from '../consts/apiUrl'
-import { homeFields } from '../consts/homeFields'
-import { countryFields } from '../consts/countryFields'
-import { bordersFields } from '../consts/bordersFields'
+const apiUrl = 'https://restcountries.eu/rest/v2/'
+const homeFields = 'fields=flag;name;population;region;capital;alpha2Code'
+const countryFields =
+  'fields=flag;name;nativeName;population;region;subregion;capital;topLevelDomain;currencies;languages;borders'
+const bordersFields = 'fields=name;alpha2Code'
 
 export function fetchAll() {
   const service = 'all'
