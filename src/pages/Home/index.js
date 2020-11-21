@@ -108,6 +108,18 @@ function Home() {
     loadByRegion(data.value)
   }
 
+  const inputOptions = {
+    icon: 'search',
+    iconPosition: 'left',
+  }
+
+  const dropdownOptions = {
+    clearable: true,
+    selection: true,
+    selectOnBlur: false,
+    selectOnNavigation: false,
+  }
+
   return (
     <div className="Home">
       <Container as="main" key="main">
@@ -118,25 +130,21 @@ function Home() {
             className="header__search"
             aria-label="Country search input"
             disabled={loading}
-            icon="search"
-            iconPosition="left"
             onChange={handleSearchChange}
             placeholder="Search for a country..."
             ref={searchRef}
             value={term}
+            {...inputOptions}
           />
 
           <Dropdown
             className="header__select"
-            clearable
             disabled={loading}
             onChange={handleRegionChange}
             options={regionOptions}
             placeholder="Filter by region"
-            selection
-            selectOnBlur={false}
-            selectOnNavigation={false}
             value={region}
+            {...dropdownOptions}
           />
         </section>
 
