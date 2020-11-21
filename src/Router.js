@@ -10,15 +10,9 @@ function Router() {
       <AppHeader />
 
       <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route exact path="/country/:alpha2Code">
-          <Country />
-        </Route>
-        <Route>
-          <NotFound />
-        </Route>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/country/:alpha2Code" component={Country} />
+        <Route component={NotFound} />
       </Switch>
     </BrowserRouter>
   )
