@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import {
   Container,
   Input,
@@ -12,6 +12,8 @@ import { regionOptions } from '../../consts/regionOptions'
 import './index.css'
 
 function Home() {
+  const history = useHistory()
+  const { search } = useLocation()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [countries, setCountries] = useState([])
@@ -20,6 +22,21 @@ function Home() {
 
   useEffect(() => {
     setLoading(true)
+
+    const query = new URLSearchParams(search)
+    const [region, term] = [query.get('region'), query.get('term')]
+
+    if (region) {
+      setRegion(region)
+      loadByRegion(region)
+      return
+    }
+
+    if (term) {
+      setTerm(term)
+      loadByTerm(term)
+      return
+    }
 
     fetch(`https://restcountries.eu/rest/v2/all`)
       .then((res) => res.json())
@@ -33,6 +50,10 @@ function Home() {
 
   function loadByRegion(region) {
     setLoading(true)
+
+    history.push({
+      search: !region ? '' : `?region=${region}`,
+    })
 
     const service = !region ? 'all' : `region/${region}`
     const fields = '?fields=flag;name;population;region;capital;alpha2Code'
@@ -48,7 +69,13 @@ function Home() {
       .finally(setLoading(false))
   }
 
-  function loadByName(term) {
+  function loadByTerm(term) {
+    setLoading(true)
+
+    history.push({
+      search: !term ? '' : `?term=${term}`,
+    })
+
     const queryString = !term ? 'all' : `name/${term}`
 
     fetch(`https://restcountries.eu/rest/v2/${queryString}`)
@@ -72,7 +99,7 @@ function Home() {
 
     setRegion('')
 
-    loadByName(term)
+    loadByTerm(term)
   }
 
   function handleRegionChange(_, data) {
