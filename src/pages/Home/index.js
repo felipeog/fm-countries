@@ -144,6 +144,8 @@ function Home() {
     <div className="Home">
       <Container as="main">
         <section className="header">
+          <h1 className="hidden">Search</h1>
+
           <form onSubmit={handleSearch}>
             <Input
               disabled={loading}
@@ -169,7 +171,11 @@ function Home() {
           />
         </section>
 
-        <section className="grid">{renderGrid()}</section>
+        <section className="grid">
+          <h1 className="hidden">Countries</h1>
+
+          {renderGrid()}
+        </section>
       </Container>
     </div>
   )
