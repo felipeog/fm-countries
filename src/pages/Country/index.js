@@ -9,33 +9,56 @@ import {
   Button,
   Icon,
 } from 'semantic-ui-react'
-import { fetchByAlphaCode } from '../../utils/api'
+import { fetchByAlphaCode, fetchByAlphaCodeArray } from '../../utils/api'
 import ErrorMessage from '../../components/ErrorMessage'
 import './index.css'
 
 function Country() {
   const { goBack } = useHistory()
   const { alpha2Code } = useParams()
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
-  const [country, setCountry] = useState([])
+  const [loadingCountry, setLoadingCountry] = useState(true)
+  const [loadingBorders, setLoadingBorders] = useState(true)
+  const [errorCountry, setErrorCountry] = useState(false)
+  const [errorBorders, setErrorBorders] = useState(false)
+  const [country, setCountry] = useState({})
+  const [borders, setBorders] = useState([])
 
   useEffect(() => {
-    setLoading(true)
+    setLoadingCountry(true)
 
     fetchByAlphaCode(alpha2Code)
       .then((res) => res.json())
       .then((data) => setCountry(data))
       .catch((e) => {
         console.error(e)
-        setError(true)
+        setErrorCountry(true)
       })
-      .finally(setLoading(false))
+      .finally(setLoadingCountry(false))
   }, [alpha2Code])
 
+  useEffect(() => {
+    setLoadingBorders(true)
+
+    if (Array.isArray(country?.borders) && country?.borders?.length) {
+      const { borders } = country
+
+      fetchByAlphaCodeArray(borders)
+        .then((res) => res.json())
+        .then((data) => setBorders(data))
+        .catch((e) => {
+          console.error(e)
+          setErrorBorders(true)
+        })
+        .finally(setLoadingBorders(false))
+    } else {
+      setBorders([])
+      setLoadingBorders(false)
+    }
+  }, [country])
+
   function renderGrid() {
-    if (loading) return <Loader active />
-    if (error) return <ErrorMessage />
+    if (loadingCountry || loadingBorders) return <Loader active />
+    if (errorCountry || errorBorders) return <ErrorMessage />
 
     const {
       flag,
@@ -48,7 +71,6 @@ function Country() {
       topLevelDomain,
       currencies,
       languages,
-      borders,
     } = country
     const topLevelDomainList = topLevelDomain?.join(', ') || '---'
     const currenciesList =
@@ -101,9 +123,9 @@ function Country() {
             </p>
 
             {borders?.length ? (
-              borders?.map((border) => (
-                <Link key={border} to={`/country/${border}`}>
-                  <Button basic>{border}</Button>
+              borders?.map(({ name, alpha2Code }) => (
+                <Link key={alpha2Code} to={`/country/${alpha2Code}`}>
+                  <Button basic>{name}</Button>
                 </Link>
               ))
             ) : (
