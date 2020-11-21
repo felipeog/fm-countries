@@ -30,7 +30,7 @@ function Country() {
       .then((res) => res.json())
       .then((data) => setCountry(data))
       .catch((e) => {
-        console.error(e)
+        console.error(`Country@fetchByAlphaCode >>>>> ${e}`)
         setErrorCountry(true)
       })
       .finally(setLoadingCountry(false))
@@ -46,7 +46,7 @@ function Country() {
         .then((res) => res.json())
         .then((data) => setBorders(data))
         .catch((e) => {
-          console.error(e)
+          console.error(`Country@fetchByAlphaCodeArray >>>>> ${e}`)
           setErrorBorders(true)
         })
         .finally(setLoadingBorders(false))

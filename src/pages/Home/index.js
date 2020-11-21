@@ -33,7 +33,7 @@ function Home() {
         .then((res) => res.json())
         .then((data) => setCountries(data))
         .catch((e) => {
-          console.error(e)
+          console.error(`Home@fetchByRegion >>>>> ${e}`)
           setError(true)
         })
         .finally(setLoading(false))
@@ -53,7 +53,7 @@ function Home() {
         .then((res) => res.json())
         .then((data) => setCountries(data))
         .catch((e) => {
-          console.error(e)
+          console.error(`Home@fetchByTerm >>>>> ${e}`)
           setError(true)
         })
         .finally(setLoading(false))
@@ -83,7 +83,7 @@ function Home() {
       .then((res) => res.json())
       .then((data) => setCountries(data))
       .catch((e) => {
-        console.error(e)
+        console.error(`Home@fetchAll >>>>> ${e}`)
         setError(true)
       })
       .finally(setLoading(false))
