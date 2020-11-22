@@ -6,7 +6,7 @@ import { fetchByAlphaCode, fetchByAlphaCodeArray } from '../../utils/api'
 import './index.scss'
 
 function Country() {
-  const { goBack } = useHistory()
+  const history = useHistory()
   const { alpha2Code } = useParams()
   const [loadingCountry, setLoadingCountry] = useState(true)
   const [loadingBorders, setLoadingBorders] = useState(true)
@@ -50,13 +50,19 @@ function Country() {
     }
   }, [country])
 
+  function handleGoBack() {
+    const { length, goBack, push } = history
+
+    length > 1 ? goBack() : push('/')
+  }
+
   return (
     <div className="Country">
       <Container as="main">
         <section className="header">
           <h1 className="hidden">Go back</h1>
 
-          <Button className="header__back-button" basic onClick={goBack}>
+          <Button className="header__back-button" basic onClick={handleGoBack}>
             <Icon name="arrow left" /> Back
           </Button>
         </section>
