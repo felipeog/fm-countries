@@ -12,4 +12,4 @@ https://fm-countries.netlify.app/
 
 ## Preview
 
-[![fm-countries-netlify-app.png](https://i.postimg.cc/Pr2qFtr1/fm-countries-netlify-app.png)](https://postimg.cc/crtZvG3J)
+[![fm-countries-netlify-app.png](https://i.postimg.cc/Kc5cRZTC/fm-countries-netlify-app.png)](https://postimg.cc/pypMSMqB)
